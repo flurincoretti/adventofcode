@@ -12,14 +12,27 @@ def intcode_processor(intcode):
     return intcode
 
 
-def main():
-    inputs = open('inputs/02.txt', 'r')
-    intcode = list(map(int, inputs.read().split(',')))
-    intcode[1] = 12
-    intcode[2] = 2
-    result = intcode_processor(intcode)
-    print(result[0])
+def part_one(intcode):
+    new_intcode = intcode.copy()
+    new_intcode[1] = 12
+    new_intcode[2] = 2
+    result = intcode_processor(new_intcode)
+    return result[0]
+
+
+def part_two(intcode):
+    for noun in range(100):
+        for verb in range(100):
+            new_intcode = intcode.copy()
+            new_intcode[1] = noun
+            new_intcode[2] = verb
+            result = intcode_processor(new_intcode)
+            if result[0] == 19690720:
+                return 100 * noun + verb
 
 
 if __name__ == "__main__":
-    main()
+    inputs = open('inputs/02.txt', 'r')
+    intcode = list(map(int, inputs.read().split(',')))
+    print("Answer (part 1): {}".format(part_one(intcode)))
+    print("Answer (part 2): {}".format(part_two(intcode)))
