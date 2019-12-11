@@ -1,49 +1,36 @@
 def run_diagnostic_program(program):
+    instruction_lengths = [0, 4, 4, 2, 2, 3, 3, 4, 4]
     i = 0
     while i < len(program):
         opcode = program[i] % 100
-        mode_1 = (program[i] // 100) % 10
-        mode_2 = (program[i] // 1000) % 10
-        mode_3 = (program[i] // 10000) % 10
-        if opcode == 1:
-            instruction_length = 4
-            if mode_1 == 0 and mode_2 == 0:
-                program[program[i+3]] = program[program[i+1]] + program[program[i+2]]
-            elif mode_1 == 1 and mode_2 == 0:
-                program[program[i+3]] = program[i+1] + program[program[i+2]]
-            elif mode_1 == 0 and mode_2 == 1:
-                program[program[i+3]] = program[program[i+1]] + program[i+2]
-            else:
-                program[program[i+3]] = program[i+1] + program[i+2]
-        elif opcode == 2:
-            instruction_length = 4
-            if mode_1 == 0 and mode_2 == 0:
-                program[program[i+3]] = program[program[i+1]] * program[program[i+2]]
-            elif mode_1 == 1 and mode_2 == 0:
-                program[program[i+3]] = program[i+1] * program[program[i+2]]
-            elif mode_1 == 0 and mode_2 == 1:
-                program[program[i+3]] = program[program[i+1]] * program[i+2]
-            else:
-                program[program[i+3]] = program[i+1] * program[i+2]
-        elif opcode == 3:
-            instruction_length = 2
-            program[program[i+1]] = int(input("Input: "))
-        elif opcode == 4:
-            instruction_length = 2
-            print("Output: {}".format(program[program[i+1]]))
-        elif opcode == 99:
+        modes = [(program[i] // 10**j) % 10 for j in range(2, 5)]
+        if opcode == 99:
             break
-        else:
-            return
-        i += instruction_length
-    return program
-
-
-def part_one(program):
-    run_diagnostic_program(program)
+        instruction_length = instruction_lengths[opcode]
+        params = [program[i+k] for k in range(1, instruction_length)]
+        values = [p if modes[j] else program[p] for j, p in enumerate(params)] 
+        i  += instruction_length
+        if opcode == 1:
+            program[params[2]] = values[0] + values[1]
+        elif opcode == 2:
+            program[params[2]] = values[0] * values[1]
+        elif opcode == 3:
+            program[params[0]] = int(input("Input: "))
+        elif opcode == 4:
+            print("Output: {}".format(values[0]))
+        elif opcode == 5:
+            if values[0] != 0:
+                i = values[1]
+        elif opcode == 6:
+            if values[0] == 0:
+                i = values[1]
+        elif opcode == 7:
+            program[params[2]] = int(values[0] < values[1])
+        elif opcode == 8:
+            program[params[2]] = int(values[0] == values[1])
 
 
 if __name__ == "__main__":
     inputs = open('inputs/05.txt', 'r')
     program = list(map(int, inputs.read().split(',')))
-    part_one(program)
+    run_diagnostic_program(program)
