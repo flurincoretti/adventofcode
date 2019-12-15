@@ -31,7 +31,28 @@ def verify_map(orbits):
     return count_direct + count_indirect
 
 
+def get_transfers(orbits):
+    lines = get_lines(orbits)
+    try:
+        you_line = [l for l in lines if 'YOU' in l][0].split(')')
+        san_line = [l for l in lines if 'SAN' in l][0].split(')')
+        common_object = ''
+        for i in range(min(len(you_line), len(san_line) - 1)):
+            if you_line[i] == san_line[i]:
+                if you_line[i+1] != san_line[i+1]:
+                    common_object = you_line[i]
+                    break
+        transfers = you_line[you_line.index(common_object)+1:-1][::-1]
+        transfers += san_line[san_line.index(common_object):-1]
+        return len(transfers) - 1
+    except IndexError:
+        print('Error')
+
+
 if __name__ == "__main__":
     inputs = open('inputs/06.txt', 'r')
     orbit_map = inputs.read().split('\n')
-    print(verify_map(orbit_map))
+    print("Total number of direct and indirect orbits: {}".format(
+        verify_map(orbit_map)))
+    print("Minimum number of orbital transfers: {}".format(
+        get_transfers(orbit_map)))
