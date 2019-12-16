@@ -10,3 +10,4 @@ This repository contains my solutions to the [Advent of Code 2019](https://adven
 - [Day 4: Secure Container](https://adventofcode.com/2019/day/4)
 - [Day 5: Sunny with a Chance of Asteroids](https://adventofcode.com/2019/day/5)
 - [Day 6: Universal Orbit Map](https://adventofcode.com/2019/day/6)
+- [Day 7: Amplification Circuit](https://adventofcode.com/2019/day/7)
