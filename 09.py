@@ -48,3 +48,6 @@ if __name__ == "__main__":
 
     print("Part 1:")
     run_diagnostic_program(program, 1)
+
+    print("Part 2:")
+    run_diagnostic_program(program, 2)
