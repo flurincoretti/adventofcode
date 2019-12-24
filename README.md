@@ -13,3 +13,4 @@ This repository contains my solutions to the [Advent of Code 2019](https://adven
 - [Day 7: Amplification Circuit](https://adventofcode.com/2019/day/7)
 - [Day 8: Space Image Format](https://adventofcode.com/2019/day/8)
 - [Day 9: Sensor Boost](https://adventofcode.com/2019/day/9)
+- [Day 10: Monitoring Station](https://adventofcode.com/2019/day/10)
