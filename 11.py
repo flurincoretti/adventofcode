@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-D = {"R": (1, 0), "L": (-1, 0), "U": (0, 1), "D": (0, -1)}
+D = {"R": (1, 0), "L": (-1, 0), "U": (0, -1), "D": (0, 1)}
 L = {"U": "L", "R": "U", "L": "D", "D": "R"}
 R = {"U": "R", "R": "D", "L": "U", "D": "L"}
 
@@ -47,13 +47,13 @@ def run_intcode_program(program, program_input=[]):
             relative_base += values[0]
 
 
-def run_robot(program):
+def run_robot(program, color):
     panels = {}
     colors = []
     generator = run_intcode_program(program, colors)
     x, y, d = 0, 0, 'U'
     while True:
-        colors.append(panels.get((x, y), 0))
+        colors.append(panels.get((x, y), color))
         try:
             panels[(x, y)] = next(generator)
             d = [L, R][next(generator)][d]
@@ -61,12 +61,27 @@ def run_robot(program):
             y += D[d][1]
         except StopIteration:
             return panels
-        
+
+
+def print_registration_idetifier(panels):
+    x, y = zip(*panels)
+    xmin, xmax = min(x), max(x)
+    ymin, ymax = min(y), max(y)
+    for y in range(ymin, ymax + 1):
+        for x in range(xmin, xmax + 1):
+            color = 'x' if panels.get((x, y)) else ' '
+            print(color, end='')
+        print()
+
 
 if __name__ == "__main__":
     inputs = open('inputs/11.txt', 'r')
     program = list(map(int, inputs.read().split(',')))
 
     print("Part 1:")
-    panels = run_robot(program)
+    panels = run_robot(program, 0)
     print("Panels painted at least once: {}".format(len(panels)))
+
+    print("Part 2:")
+    panels = run_robot(program, 1)
+    print_registration_idetifier(panels)
