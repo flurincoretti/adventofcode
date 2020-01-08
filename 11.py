@@ -63,7 +63,7 @@ def run_robot(program, color):
             return panels
 
 
-def print_registration_idetifier(panels):
+def print_registration_identifier(panels):
     x, y = zip(*panels)
     xmin, xmax = min(x), max(x)
     ymin, ymax = min(y), max(y)
@@ -84,4 +84,4 @@ if __name__ == "__main__":
 
     print("Part 2:")
     panels = run_robot(program, 1)
-    print_registration_idetifier(panels)
+    print_registration_identifier(panels)
